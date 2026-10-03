@@ -71,4 +71,4 @@ PDF -> chunks -> embeddings -> similarity search -> top chunks -> prompt -> Gemi
 ## Author
 
 **Yugank**
-[LinkedIn](add-your-link) | [GitHub](add-your-link)
+
