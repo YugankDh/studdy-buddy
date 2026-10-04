@@ -100,26 +100,34 @@ if file:
     if mode == "Ask a question":
         ques = st.text_input("Your question", placeholder="e.g. What is supervised learning?")
         if st.button("Get answer"):
-            top_docs = retrieve(ques)
-            context = "\n\n".join(d.page_content for d in top_docs)
-            prompt = ask_template.invoke({
-                "context":context,
-                "question":ques
-            })
-            result = model.invoke(prompt)
-            st.write(result.content[0]['text'])
+            try:
+                top_docs = retrieve(ques)
+                context = "\n\n".join(d.page_content for d in top_docs)
+                prompt = ask_template.invoke({
+                    "context":context,
+                    "question":ques
+                })
+                result = model.invoke(prompt)
+                st.write(result.content[0]['text'])
+            except:
+                st.error("🚨 Request limit reached! (RateLimitError)")
+                
 
     elif mode == "Summarize a topic":
         qry = st.text_input("Topic to summarize", placeholder="e.g. Gradient descent")
         if st.button("Summarize"):
-            top_docs = retrieve(qry)
-            context = "\n\n".join(d.page_content for d in top_docs)
-            prompt = summarize_template.invoke({
-                    "topic":qry,
-                    "context":context
-                })
-            result = model.invoke(prompt)
-            st.write(result.content[0]['text'])
+            try:
+                top_docs = retrieve(qry)
+                context = "\n\n".join(d.page_content for d in top_docs)
+                prompt = summarize_template.invoke({
+                        "topic":qry,
+                        "context":context
+                    })
+                result = model.invoke(prompt)
+                st.write(result.content[0]['text'])
+            except:
+                st.error("🚨 Request limit reached! (RateLimitError)")
+
 
 else:
     st.info("Upload a PDF above to start studying.")
