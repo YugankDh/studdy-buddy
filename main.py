@@ -109,8 +109,9 @@ if file:
                 })
                 result = model.invoke(prompt)
                 st.write(result.content[0]['text'])
-            except:
+            except Exception as e:
                 st.error("🚨 An error occured while calling the api!")
+                print(e)
                 
 
     elif mode == "Summarize a topic":
@@ -125,8 +126,9 @@ if file:
                     })
                 result = model.invoke(prompt)
                 st.write(result.content[0]['text'])
-            except:
+            except Exception as e:
                 st.error("🚨 An error occured while calling the api!")
+                print(e)
 
 
 else:
