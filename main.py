@@ -25,7 +25,7 @@ for key in ["GOOGLE_API_KEY", "HUGGINGFACEHUB_API_TOKEN"]:
 
 @st.cache_resource
 def load_models():
-    model = ChatGoogleGenerativeAI(model='gemini-3-flash-preview')
+    model = ChatGoogleGenerativeAI(model='gemini-3.6-flash-preview')
     embedding = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
     return model, embedding
 
