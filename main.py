@@ -68,8 +68,9 @@ splitter = RecursiveCharacterTextSplitter(
 )
 
 
-st.header("Study Buddy")
-file = st.file_uploader("Upload a pdf",type='pdf')
+st.header("PDF Study Buddy")
+st.write("Upload a PDF, then ask questions or request a summary. Answers are based only on the content of your document.")
+file = st.file_uploader("Upload a PDF to get started", type="pdf")
 
 @st.cache_resource(show_spinner="Reading and embedding your PDF...")
 def get_embeddings(file_bytes):
@@ -94,11 +95,11 @@ if file:
     
 
 
-    mode = st.selectbox("Choose mode",["Ask","Summarize"])
+    mode = st.selectbox("What would you like to do?",["Ask a question","Summarize a topic"])
 
-    if mode == "Ask":
-        ques = st.text_input("Question",placeholder="Enter the question")
-        if st.button("answer"):
+    if mode == "Ask a question":
+        ques = st.text_input("Your question", placeholder="e.g. What is supervised learning?")
+        if st.button("Get answer"):
             top_docs = retrieve(ques)
             context = "\n\n".join(d.page_content for d in top_docs)
             prompt = ask_template.invoke({
@@ -108,9 +109,9 @@ if file:
             result = model.invoke(prompt)
             st.write(result.content[0]['text'])
 
-    elif mode == "Summarize":
-        qry = st.text_input("Topic",placeholder="Enter the topic name")
-        if st.button("summarize"):
+    elif mode == "Summarize a topic":
+        qry = st.text_input("Topic to summarize", placeholder="e.g. Gradient descent")
+        if st.button("Summarize"):
             top_docs = retrieve(qry)
             context = "\n\n".join(d.page_content for d in top_docs)
             prompt = summarize_template.invoke({
@@ -121,4 +122,4 @@ if file:
             st.write(result.content[0]['text'])
 
 else:
-    st.error("please upload a file")
+    st.info("Upload a PDF above to start studying.")
